@@ -1,15 +1,13 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+.DS_Store
+config.json
+testnet.json
 
-# Test binary, built with `go test -c`
-*.test
+/build/_workspace/
+/build/bin/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+.travis.yml
+*.log
+tls-client
+tls-client.exe
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+.idea

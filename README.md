@@ -1,2 +1,6 @@
 # tls-client
-TLS client for mining pool
+
+
+```
+go build
+```

@@ -1,0 +1,23 @@
+{
+	"threads": 4,
+	"log": {
+		"logSetLevel": 10
+	},
+	"node": {
+		"listen": "0.0.0.0:9009",
+		"maxConn": 16384,
+		"timeout": 300
+	},
+	"targets": [
+		{
+			"endpoint": "172.24.146.33:8008",
+			"maxConn": 8192,
+			"timeout": 300,
+			"active": true
+		}
+	],
+	"tls": {
+		"tlsCert": "certs/client.pem",
+		"tlsKey": "certs/client.key"
+	}
+}
