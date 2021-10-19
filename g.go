@@ -14,4 +14,4 @@ var LBConnectionPairMgrP *LBConnectionPairMgr
 
 var LBGoroutineManagerP *goroutine_mgr.GoroutineManager
 
-//var LBNodeLocalSelector uint64 = 0
+var GlobalDir *string

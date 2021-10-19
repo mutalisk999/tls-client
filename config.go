@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type LogConfig struct {
@@ -39,7 +40,7 @@ type Config struct {
 }
 
 func loadConfig(cfg *Config) {
-	configFileName := "config.json"
+	configFileName := strings.Join([]string{*GlobalDir, "config.json"}, "/")
 	if len(os.Args) > 1 {
 		configFileName = os.Args[1]
 	}

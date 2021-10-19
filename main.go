@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"github.com/mutalisk999/go-lib/src/sched/goroutine_mgr"
 	"runtime"
+	"strings"
 )
 
 func initNode(c *Config) {
@@ -51,18 +53,20 @@ func initApplication(c *Config) {
 }
 
 func main() {
+	GlobalDir = flag.String("d", "./", "tls client dir")
+
 	loadConfig(&LBConfig)
 
 	if len(LBConfig.Targets) != 1 {
 		Error.Panic("LBConfig.Targets length must be 1")
 	}
 
-	iLogFile := "info.log"
-	eLogFile := "error.log"
+	iLogFile := strings.Join([]string{*GlobalDir, "info.log"}, "/")
+	eLogFile := strings.Join([]string{*GlobalDir, "error.log"}, "/")
 	InitLog(iLogFile, eLogFile, LBConfig.Log.LogSetLevel)
 
 	// set rlimit nofile value
-	SetRLimit(100000)
+	//SetRLimit(100000)
 
 	initApplication(&LBConfig)
 
