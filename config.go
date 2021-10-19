@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -41,10 +40,10 @@ type Config struct {
 
 func loadConfig(cfg *Config) {
 	configFileName := strings.Join([]string{*GlobalDir, "config.json"}, "/")
-	if len(os.Args) > 1 {
-		configFileName = os.Args[1]
-	}
-	configFileName, _ = filepath.Abs(configFileName)
+	//if len(os.Args) > 1 {
+	//	configFileName = os.Args[1]
+	//}
+	//configFileName, _ = filepath.Abs(configFileName)
 	log.Printf("Load Config: %v", configFileName)
 
 	configFile, err := os.OpenFile(configFileName, os.O_RDONLY, 0600)
