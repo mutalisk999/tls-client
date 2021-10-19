@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/hex"
 	"github.com/mutalisk999/go-lib/src/sched/goroutine_mgr"
 	"net"
 	"sort"
@@ -26,15 +27,15 @@ func handleTcpProxyConn(g goroutine_mgr.Goroutine, a interface{}) {
 			continue
 		}
 
-		cert, err := tls.LoadX509KeyPair("certs/client.pem", "certs/client.key")
+		cert, err := tls.LoadX509KeyPair(LBConfig.Tls.TlsCert, LBConfig.Tls.TlsKey)
 		if err != nil {
-			Error.Fatalf("LoadX509KeyPair fail: %s", err)
+			Warn.Printf("LoadX509KeyPair fail: %s", err)
+			continue
 		}
 		config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 		connToTarget, err = tls.Dial("tcp", t.EndPointConn, &config)
 		if err != nil {
-			Error.Fatalf("TLS Dial fail: %s", err)
-			conn.Close()
+			Warn.Printf("TLS Dial fail: %s", err)
 			continue
 		}
 		Info.Printf("TLS Dial Connected To: %s Success!", conn.RemoteAddr().String())
@@ -42,7 +43,7 @@ func handleTcpProxyConn(g goroutine_mgr.Goroutine, a interface{}) {
 		state := connToTarget.ConnectionState()
 		for _, v := range state.PeerCertificates {
 			pKIXPublicKey, _ := x509.MarshalPKIXPublicKey(v.PublicKey)
-			Info.Printf("pKIXPublicKey: %v", pKIXPublicKey)
+			Info.Printf("pKIXPublicKey: %s", hex.EncodeToString(pKIXPublicKey))
 		}
 		Info.Println("TLS: Handshake Complete: ", state.HandshakeComplete)
 		Info.Println("TLS: Mutual: ", state.NegotiatedProtocolIsMutual)
