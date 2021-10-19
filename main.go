@@ -54,6 +54,7 @@ func initApplication(c *Config) {
 
 func main() {
 	GlobalDir = flag.String("d", "./", "tls client dir")
+	flag.Parse()
 
 	loadConfig(&LBConfig)
 
