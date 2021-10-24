@@ -19,6 +19,11 @@ func handleTcpProxyConn(g goroutine_mgr.Goroutine, a interface{}) {
 	targetsCopy := LBTargetsMgrP.DumpTargetsCopy()
 	sort.Sort(LBTargetCopys(targetsCopy))
 
+	cert, err := tls.LoadX509KeyPair(LBConfig.Tls.TlsCert, LBConfig.Tls.TlsKey)
+	if err != nil {
+		Error.Fatalf("LoadX509KeyPair fail: %s", err)
+	}
+
 	for _, t := range targetsCopy {
 		if !t.Active {
 			continue
@@ -27,11 +32,6 @@ func handleTcpProxyConn(g goroutine_mgr.Goroutine, a interface{}) {
 			continue
 		}
 
-		cert, err := tls.LoadX509KeyPair(LBConfig.Tls.TlsCert, LBConfig.Tls.TlsKey)
-		if err != nil {
-			Warn.Printf("LoadX509KeyPair fail: %s", err)
-			continue
-		}
 		config := tls.Config{Certificates: []tls.Certificate{cert}, InsecureSkipVerify: true}
 		connToTarget, err = tls.Dial("tcp", t.EndPointConn, &config)
 		if err != nil {
