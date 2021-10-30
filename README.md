@@ -40,11 +40,18 @@ ExecStart=/home/ubuntu/tls-client/tls-client -d /home/ubuntu/tls-client
 ### Service start/stop/restart/status
 
 ```
-sudo systemctl enable tls-client.service
 sudo systemctl start tls-client.service
 sudo systemctl stop tls-client.service
 sudo systemctl restart tls-client.service
 sudo systemctl status tls-client.service
+```
+
+
+### Enable start service while system bootint up
+
+```
+sudo systemctl enable tls-client.service
+sudo systemctl is-enabled tls-client.service
 ```
 
 
