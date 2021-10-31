@@ -35,6 +35,9 @@ After=network.target
 User=root
 WorkingDirectory=/home/ubuntu/tls-client
 ExecStart=/home/ubuntu/tls-client/tls-client -d /home/ubuntu/tls-client
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 ### Service start/stop/restart/status
